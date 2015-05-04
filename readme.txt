@@ -1,7 +1,7 @@
 === JBlog Captcha ===
 Contributors: alonelion1987
 Official website: http://jblog-project.ru/kapcha-v-polzovatelskix-formax/
-Tags: anti-spam, antispam, anti-spam security, captcha, custom form captcha, symbol captcha
+Tags: anti-spam, antispam, anti-spam security, captcha, custom form captcha, symbol captcha, security custom form, custom captcha, capcha, develop captcha, kit captcha
 Requires at least: 4.2
 Tested up to: 4.2.1
 Stable tag: 1.0
