@@ -4,15 +4,10 @@
         margin-bottom: 15px;
     }
 
-    #tbl_setting table:last-child {
-        float: right;
-        padding-left: 20px;
-    }
-
     #color_generation {
         overflow: hidden;
         padding: 10px;
-        width: 17%;
+        width: 30%;
         background: #f9f9f9;
         border: 1px solid #ccc;
         -webkit-border-radius: 3px;
@@ -24,7 +19,8 @@
     #demo {
         width: 210px;
         height: 174px;
-        margin-left: 20.5%;
+        margin-left: 1%;
+        float: left;
         background: #f9f9f9;
         border: 1px solid #ccc;
         -webkit-border-radius: 3px;
@@ -50,6 +46,8 @@
 
     <p>Задайте фон (по умолчанию «рябь»)</p>
 
+    <p>Задайте количество символов в капче (по умолчанию 5)</p>
+
     <form id="color_generation" action="" method="post">
         <div id="tbl_setting">
             <table style="border-right: 1px dotted #ccc;
@@ -70,7 +68,8 @@
                                value="<?php echo $obj_admin->getColorBlue(); ?>"/></td>
                 </tr>
             </table>
-            <table>
+            <table style="border-right: 1px dotted #ccc;
+                          padding-right: 20px;">
                 <tr>
                     <td><input type="radio" name="getbg" id="getbg" value="bg" <?php if ($obj_admin->getBg() == 'bg') {
                             echo "checked";
@@ -106,19 +105,49 @@
                     <td>Узоры</td>
                 </tr>
             </table>
+            <table>
+                <tr>
+                    <td>
+                        <input type="radio" name="getnum" id="getnum"
+                               value="5" <?php if ($obj_admin->getNum() == 5) {
+                            echo "checked";
+                        } ?>>
+                    </td>
+                    <td><strong>5</strong> символов</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="radio" name="getnum" id="getnum1"
+                               value="4" <?php if ($obj_admin->getNum() == 4) {
+                            echo "checked";
+                        } ?>>
+                    </td>
+                    <td><strong>4</strong> символа</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="radio" name="getnum" id="getnum2"
+                               value="3" <?php if ($obj_admin->getNum() == 3) {
+                            echo "checked";
+                        } ?>>
+                    </td>
+                    <td><strong>3</strong> символа</td>
+                </tr>
+            </table>
         </div>
         <div style="clear: both;"></div>
         <input type="submit" class="button-primary" name="jb_submit" value="Сохранить"/>
     </form>
     <div id="demo">
-        <?php $generate = $obj_admin->generateImage();
+        <?php $generate = $obj_admin->generateImage('captcha');
         if ($generate) {
             ?>
-            <img style="padding: 68px 0;" src="<?php echo $obj_admin->plugin_url; ?>assets/img/captcha.jpg">
+            <img style="padding: 68px 0;" src="<?php echo $obj_admin->plugin_url; ?>assets/img/<?php echo $generate; ?>.jpg">
         <?php
+        }else{
+            echo "Произошла ошибка при загрузке изображения..";
         }
         ?>
-        <?php $obj_admin->deleteImage(); ?>
     </div>
     <div style="clear: both;"></div>
     <div>

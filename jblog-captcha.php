@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: JBlog Captcha
-Version: 1.0
+Version: 1.1
 Description: Генерируемая капча из цифр и латинских символов. Предназначена только для использования в пользовательских формах и выводится простым шорткодом. Инструкции по использованию: Настройки — JBlog Captcha.
 Plugin URI: http://jblog-project.ru/kapcha-v-polzovatelskix-formax/
 Author: JBlog
@@ -134,12 +134,27 @@ if (!class_exists('JBlogCaptcha')) {
             return $this->data['bg'];
         }
 
+        /* Get num char of CAPTCHA
+         * -------------
+         * Получить кол-во символов в капче, по умолчанию 5
+         * */
+        function getNum()
+        {
+            if (get_option(self::JBC . '_num')) {
+                $this->data['num'] = get_option(self::JBC . '_num');
+            } else {
+                $this->data['num'] = 5;
+            }
+            return $this->data['num'];
+        }
+
         /*
          * Generate random string
          * */
-        function getRndString()
+        function getRndString($n)
         {
-            return substr(md5(substr(md5(time() / sqrt(rand(1, 9999))), rand(0, 5), 10)), rand(0, 5), 5);
+            $base = array('A','a','B','b','C','c','D','d','E','e','F','f','G','g','H','h','I','i','J','j','K','k','L','l','M','m','N','n','O','o','P','p','Q','q','R','r','S','s','T','t','U','u','V','v','W','w','X','x','Y','y','Z','z','1','2','3','4','5','6','7','8','9','0');
+            return substr(md5(substr(md5(time() / sqrt(rand(1, 9999))), rand(0, 5), 10)), rand(0, 5), $n-3).$base[rand(0,20)].$base[rand(21,41)].$base[rand(41,61)];
         }
 
         /* compare value in this session and value user
@@ -186,17 +201,17 @@ if (!class_exists('JBlogCaptcha')) {
             <div id="jbcptcha_div">
                 <div id="generate-jbcptcha">
                     <?php /* Генератор картинки */ ?>
-                    <?php $generate = $this->generateImage();
+                    <?php $generate = $this->generateImage('captcha');
                     if ($generate) {
                         ?>
-                        <img src="<?php echo $this->plugin_url; ?>assets/img/captcha.jpg">
+                        <img src="<?php echo $this->plugin_url; ?>assets/img/<?php echo $generate; ?>.jpg">
                     <?php
+                    }else{
+                        echo "Произошла ошибка при загрузке изображения..";
                     }
                     ?>
-                    <?php $this->deleteImage(); ?>
                 </div>
                 <br>
-
                 <div id="jbcptcha_settings">
                     <label>Введите символы</label>
                     <input id="jbcptcha_input" type="text" name="str" size="8" maxlength="5" autocomplete="off">
@@ -212,15 +227,15 @@ if (!class_exists('JBlogCaptcha')) {
         /*
          * Generate and save img
          * */
-        function generateImage()
+        function generateImage($string)
         {
             session_start();
-            $c = 5;
+            $c = $this->getNum();
             $bg = $this->getBg();
             $i = $this->LoadJpeg($this->plugin_url . 'assets/img/' . $bg . '.jpg');
             $color = $this->setColor($i, $this->getColorRed(), $this->getColorGreen(), $this->getColorBlue());
             imageantialias($i, true);
-            $str = $this->getRndString();
+            $str = $this->getRndString($c);
             $_SESSION['str'] = $str;
             $x = 20;
             $y = 30;
@@ -231,20 +246,12 @@ if (!class_exists('JBlogCaptcha')) {
                 imagettftext($i, $size, $angle, $x, $y, $color, $this->plugin_dir . 'assets/fonts/bellb.ttf', $str[$j]);
                 $x += $offsetX;
             }
-            $path = $this->plugin_dir . 'assets/img/captcha.jpg';
+            $path = $this->plugin_dir . 'assets/img/'.$string.'.jpg';
             $save = imagejpeg($i, $path, 50);
             $del = imagedestroy($i);
             if ($save && $del)
-                return true;
+                return $string;
             return false;
-        }
-
-        /*
-         * delete img file
-         * */
-        function deleteImage()
-        {
-            return unlink($this->plugin_url . 'assets/img/captcha.jpg');
         }
 
         /*
@@ -352,6 +359,10 @@ if (!class_exists('JBlogCaptcha')) {
                         $this->data['bg'] = $_POST['getbg'];
                         update_option(self::JBC . '_bg', $this->data['bg']);
                     }
+                    if (isset($_POST['getnum']) && "" != $_POST['getnum']) {
+                        $this->data['num'] = $_POST['getnum'];
+                        update_option(self::JBC . '_num', $this->data['num']);
+                    }
                 }
             }
             include $this->plugin_dir . 'include/admin.php';
@@ -382,7 +393,7 @@ if (!class_exists('JBlogCaptcha')) {
             delete_option(self::JBC . '_color');
             delete_option(self::JBC . '_bg');
             delete_option(self::JBC . '_is');
-
+            delete_option(self::JBC . '_num');
         }
 
         /*
@@ -403,7 +414,7 @@ if (!class_exists('JBlogCaptcha')) {
             delete_option(self::JBC . '_color');
             delete_option(self::JBC . '_bg');
             delete_option(self::JBC . '_is');
-
+            delete_option(self::JBC . '_num');
         }
     }
 }
