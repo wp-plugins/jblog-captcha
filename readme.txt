@@ -8,11 +8,13 @@ Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Generated CAPTCHA numbers and Latin characters. It is intended only for use in custom forms and displays a simple shortcode.
+Generated captcha numbers and latin characters. It is intended only for use in custom forms and displays a simple shortcode.
 
 == Description ==
 
 JBlog Captcha generates a picture with the characters and the text box. It is possible to choose the background for the image and change the font color.
+
+This plugin will be an indispensable tool for developers of custom forms.
 
 The documentation provided with comprehensive information on the methods of treatment of user data sent to the server.
 
