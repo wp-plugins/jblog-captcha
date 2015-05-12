@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: JBlog Captcha
-Version: 1.1
+Version: 1.2.3
 Description: Генерируемая капча из цифр и латинских символов. Предназначена только для использования в пользовательских формах и выводится простым шорткодом. Инструкции по использованию: Настройки — JBlog Captcha.
 Plugin URI: http://jblog-project.ru/kapcha-v-polzovatelskix-formax/
 Author: JBlog
