@@ -148,6 +148,20 @@ if (!class_exists('JBlogCaptcha')) {
             return $this->data['num'];
         }
 
+        /* Get registr
+         * -------------
+         * Получить опцию регистра, по умолчанию - регистрозависимый
+         * */
+        function getSens()
+        {
+            if (get_option(self::JBC . '_sens')) {
+                $this->data['sens'] = get_option(self::JBC . '_sens');
+            } else {
+                $this->data['sens'] = 1;
+            }
+            return $this->data['sens'];
+        }
+
         /*
          * Generate random string
          * */
@@ -201,7 +215,7 @@ if (!class_exists('JBlogCaptcha')) {
             <div id="jbcptcha_div">
                 <div id="generate-jbcptcha">
                     <?php /* Генератор картинки */ ?>
-                    <?php $generate = $this->generateImage('captcha');
+                    <?php $generate = $this->generateImage('captcha', $this->getSens());
                     if ($generate) {
                         ?>
                         <img src="<?php echo $this->plugin_url; ?>assets/img/<?php echo $generate; ?>.jpg">
@@ -227,7 +241,7 @@ if (!class_exists('JBlogCaptcha')) {
         /*
          * Generate and save img
          * */
-        function generateImage($string)
+        function generateImage($string, $sens)
         {
             session_start();
             $c = $this->getNum();
@@ -236,6 +250,8 @@ if (!class_exists('JBlogCaptcha')) {
             $color = $this->setColor($i, $this->getColorRed(), $this->getColorGreen(), $this->getColorBlue());
             imageantialias($i, true);
             $str = $this->getRndString($c);
+            if($sens == 2)
+                $str = strtolower($str);
             $_SESSION['str'] = $str;
             $x = 20;
             $y = 30;
@@ -363,6 +379,10 @@ if (!class_exists('JBlogCaptcha')) {
                         $this->data['num'] = $_POST['getnum'];
                         update_option(self::JBC . '_num', $this->data['num']);
                     }
+                    if (isset($_POST['getsens']) && "" != $_POST['getsens']) {
+                        $this->data['sens'] = $_POST['getsens'];
+                        update_option(self::JBC . '_sens', $this->data['sens']);
+                    }
                 }
             }
             include $this->plugin_dir . 'include/admin.php';
@@ -394,6 +414,7 @@ if (!class_exists('JBlogCaptcha')) {
             delete_option(self::JBC . '_bg');
             delete_option(self::JBC . '_is');
             delete_option(self::JBC . '_num');
+            delete_option(self::JBC . '_sens');
         }
 
         /*
@@ -415,6 +436,7 @@ if (!class_exists('JBlogCaptcha')) {
             delete_option(self::JBC . '_bg');
             delete_option(self::JBC . '_is');
             delete_option(self::JBC . '_num');
+            delete_option(self::JBC . '_sens');
         }
     }
 }

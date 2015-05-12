@@ -7,7 +7,7 @@
     #color_generation {
         overflow: hidden;
         padding: 10px;
-        width: 30%;
+        width: 38%;
         background: #f9f9f9;
         border: 1px solid #ccc;
         -webkit-border-radius: 3px;
@@ -50,26 +50,24 @@
 
     <form id="color_generation" action="" method="post">
         <div id="tbl_setting">
-            <table style="border-right: 1px dotted #ccc;
-                          padding-right: 20px;">
+            <table style="padding-right: 20px;">
                 <tr>
                     <td><label for="red">R:</label></td>
                     <td><input name="red" type="text" size="3" maxlength="3"
-                               value="<?php echo $obj_admin->getColorRed(); ?>"/></td>
+                               value="<?php if($obj_admin->getColorRed()) echo $obj_admin->getColorRed(); else echo '60'; ?>"/></td>
                 </tr>
                 <tr>
                     <td><label for="green">G:</label></td>
                     <td><input name="green" type="text" size="3" maxlength="3"
-                               value="<?php echo $obj_admin->getColorGreen(); ?>"/></td>
+                               value="<?php if($obj_admin->getColorGreen()) echo $obj_admin->getColorGreen(); else echo '60'; ?>"/></td>
                 </tr>
                 <tr>
                     <td><label for="blue">B:</label></td>
                     <td><input name="blue" type="text" size="3" maxlength="3"
-                               value="<?php echo $obj_admin->getColorBlue(); ?>"/></td>
+                               value="<?php if($obj_admin->getColorBlue()) echo $obj_admin->getColorBlue(); else echo '60'; ?>"/></td>
                 </tr>
             </table>
-            <table style="border-right: 1px dotted #ccc;
-                          padding-right: 20px;">
+            <table style="padding-right: 20px;">
                 <tr>
                     <td><input type="radio" name="getbg" id="getbg" value="bg" <?php if ($obj_admin->getBg() == 'bg') {
                             echo "checked";
@@ -105,7 +103,7 @@
                     <td>Узоры</td>
                 </tr>
             </table>
-            <table>
+            <table style="padding-right: 20px;">
                 <tr>
                     <td>
                         <input type="radio" name="getnum" id="getnum"
@@ -133,13 +131,51 @@
                     </td>
                     <td><strong>3</strong> символа</td>
                 </tr>
+                <tr>
+                    <td>
+                        <input type="radio" name="getnum" id="getnum3"
+                               value="2" <?php if ($obj_admin->getNum() == 2) {
+                            echo "checked";
+                        } ?>>
+                    </td>
+                    <td><strong>2</strong> символа</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="radio" name="getnum" id="getnum4"
+                               value="1" <?php if ($obj_admin->getNum() == 1) {
+                            echo "checked";
+                        } ?>>
+                    </td>
+                    <td><strong>1</strong> символ</td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td>
+                        <input type="radio" name="getsens" id="getsens"
+                               value="1" <?php if ($obj_admin->getSens() == 1) {
+                            echo "checked";
+                        } ?>>
+                    </td>
+                    <td>Регистрозависим</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="radio" name="getsens" id="getsens1"
+                               value="2" <?php if ($obj_admin->getSens() == 2) {
+                            echo "checked";
+                        } ?>>
+                    </td>
+                    <td>Регистронезависим</td>
+                </tr>
             </table>
         </div>
         <div style="clear: both;"></div>
         <input type="submit" class="button-primary" name="jb_submit" value="Сохранить"/>
     </form>
     <div id="demo">
-        <?php $generate = $obj_admin->generateImage('captcha');
+        <?php $generate = $obj_admin->generateImage('captcha', $obj_admin->getSens());
         if ($generate) {
             ?>
             <img style="padding: 68px 0;" src="<?php echo $obj_admin->plugin_url; ?>assets/img/<?php echo $generate; ?>.jpg">
