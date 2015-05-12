@@ -4,7 +4,7 @@ Official website: http://jblog-project.ru/kapcha-v-polzovatelskix-formax/
 Tags: anti-spam, antispam, anti-spam security, captcha, custom form captcha, symbol captcha, security custom form, custom captcha, capcha, develop captcha, kit captcha
 Requires at least: 4.2
 Tested up to: 4.2.2
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -59,8 +59,7 @@ This shortcode will return the html generated image with symbols and text field
 
 == Changelog ==
 
-= 1.2 version (12.05.2015) =
-UPDATE: Added selection for two and one character in setting the number of characters displayed in a captcha
+= 1.2.3 version (12.05.2015) =
 ADDED: put case sensitive captcha
 
 = 1.1 version (09.05.2015) =

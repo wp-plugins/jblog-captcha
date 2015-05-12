@@ -131,24 +131,6 @@
                     </td>
                     <td><strong>3</strong> символа</td>
                 </tr>
-                <tr>
-                    <td>
-                        <input type="radio" name="getnum" id="getnum3"
-                               value="2" <?php if ($obj_admin->getNum() == 2) {
-                            echo "checked";
-                        } ?>>
-                    </td>
-                    <td><strong>2</strong> символа</td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="radio" name="getnum" id="getnum4"
-                               value="1" <?php if ($obj_admin->getNum() == 1) {
-                            echo "checked";
-                        } ?>>
-                    </td>
-                    <td><strong>1</strong> символ</td>
-                </tr>
             </table>
             <table>
                 <tr>
