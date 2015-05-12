@@ -59,7 +59,7 @@ This shortcode will return the html generated image with symbols and text field
 
 == Changelog ==
 
-= 1.2 version (12.05.2015)
+= 1.2 version (12.05.2015) =
 UPDATE: Added selection for two and one character in setting the number of characters displayed in a captcha
 ADDED: put case sensitive captcha
 
